@@ -4,8 +4,8 @@ USER = oubiwann
 
 default: all
 
-all: latex-image dark-image dark-latex-image
-release-all: latex-release dark-release dark-latex-release
+all: latex-image dark-image dark-latex-image cl-image
+release-all: latex-release dark-release dark-latex-release cl-release
 
 #############################################################################
 ###   LaTeX Support   #######################################################
@@ -78,3 +78,29 @@ dark-latex-release: dark-latex-image dark-latex-tag dark-latex-push
 
 dark-latex-bash:
 	@docker run --entrypoint=bash -it $(D_ORG)/$(D_PROJ_DARK_LATAEX):latest
+
+#############################################################################
+###   Common Lisp Support   #################################################
+#############################################################################
+
+D_PROJ_CL = maxima-jupyter-cl
+D_DIR_CL = ./docker/common-lisp
+
+cl-image:
+	@git clone https://github.com/fredokun/cl-jupyter.git $(D_DIR_CL)/cl-jupyter
+	@docker build --build-arg NB_USER=$(USER) \
+	--tag $(D_ORG)/$(D_PROJ_CL) $(D_DIR_CL)
+	@docker tag $(D_ORG)/$(D_PROJ_CL) $(D_ORG)/$(D_PROJ_CL):latest
+	@rm -rf $(D_DIR_CL)/cl-jupyter
+
+cl-tag:
+	@docker tag $(D_ORG)/$(D_PROJ_CL) $(D_ORG)/$(D_PROJ_CL):$(VERSION)
+
+cl-push:
+	@docker push $(D_ORG)/$(D_PROJ_CL):latest
+	@docker push $(D_ORG)/$(D_PROJ_CL):$(VERSION)
+
+cl-release: cl-tag cl-push
+
+cl-bash:
+	@docker run --entrypoint=bash -it $(D_ORG)/$(D_PROJ_CL):latest
