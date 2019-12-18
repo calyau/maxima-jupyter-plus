@@ -9,6 +9,7 @@
 This project provides the following additional features on top of the excellent
 [maxima-jupyter][maxima-jupyter] project:
 
+* A Common Lisp kernel along with the Maxima and Python kernels
 * Dark-themed notebook support
 * LaTeX install for PDF-download support from running notebooks (PDF files are 
   formatted as standard technical/research articles)
