@@ -4,8 +4,8 @@ USER = oubiwann
 
 default: all
 
-all: latex-image dark-image dark-latex-image cl-image polyglot-image polyglot-latex-image
-release-all: latex-release dark-release dark-latex-release cl-release polyglot-release polyglot-latex-release
+all: latex-image dark-image dark-latex-image cl-image polyglot-image polyglot-latex-image polyglot-dark-latex-image
+release-all: latex-release dark-release dark-latex-release cl-release polyglot-release polyglot-latex-release polyglot-dark-latex-release
 
 #############################################################################
 ###   LaTeX Support   #######################################################
@@ -20,7 +20,7 @@ latex-image:
 	@docker tag $(D_ORG)/$(D_PROJ_LATEX) $(D_ORG)/$(D_PROJ_LATEX):latest
 
 latex-tag:
-	@docker tag $(D_ORG)/$(D_PROJ_LATEX) $(D_ORG)/$(D_LATEX_PROJ):$(VERSION)
+	@docker tag $(D_ORG)/$(D_PROJ_LATEX) $(D_ORG)/$(D_PROJ_LATEX):$(VERSION)
 
 latex-push:
 	@docker push $(D_ORG)/$(D_PROJ_LATEX):latest
@@ -130,7 +130,7 @@ polyglot-bash:
 	@docker run --entrypoint=bash -it $(D_ORG)/$(D_PROJ_POLYG):latest
 
 #############################################################################
-###   Polyglot LaTeXSupport   ###############################################
+###   Polyglot LaTeX Support   ##############################################
 #############################################################################
 
 D_PROJ_POLYG_LATEX = maxima-jupyter-polyglot-latex
@@ -152,3 +152,27 @@ polyglot-latex-release: polyglot-latex-tag polyglot-latex-push
 
 polyglot-latex-bash:
 	@docker run --entrypoint=bash -it $(D_ORG)/$(D_PROJ_POLYG_LATEX):latest
+
+#############################################################################
+###   Polyglot Dark LaTeX Support   #########################################
+#############################################################################
+
+D_PROJ_POLYG_DARK_LATEX = maxima-jupyter-polyglot-dark-latex
+D_DIR_POLYG_DARK_LATEX = ./docker/polyglot-dark-latex
+
+polyglot-dark-latex-image:
+	@docker build --build-arg NB_USER=$(USER) \
+	--tag $(D_ORG)/$(D_PROJ_POLYG_DARK_LATEX) $(D_DIR_POLYG_DARK_LATEX)
+	@docker tag $(D_ORG)/$(D_PROJ_POLYG_DARK_LATEX) $(D_ORG)/$(D_PROJ_POLYG_DARK_LATEX):latest
+
+polyglot-dark-latex-tag:
+	@docker tag $(D_ORG)/$(D_PROJ_POLYG_DARK_LATEX) $(D_ORG)/$(D_PROJ_POLYG_DARK_LATEX):$(VERSION)
+
+polyglot-dark-latex-push:
+	@docker push $(D_ORG)/$(D_PROJ_POLYG_DARK_LATEX):latest
+	@docker push $(D_ORG)/$(D_PROJ_POLYG_DARK_LATEX):$(VERSION)
+
+polyglot-dark-latex-release: polyglot-dark-latex-tag polyglot-dark-latex-push
+
+polyglot-dark-latex-bash:
+	@docker run --entrypoint=bash -it $(D_ORG)/$(D_PROJ_POLYG_DARK_LATEX):latest
