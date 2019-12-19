@@ -4,8 +4,8 @@ USER = oubiwann
 
 default: all
 
-all: latex-image dark-image dark-latex-image cl-image
-release-all: latex-release dark-release dark-latex-release cl-release
+all: latex-image dark-image dark-latex-image cl-image polyglot-image polyglot-latex-image
+release-all: latex-release dark-release dark-latex-release cl-release polyglot-release polyglot-latex-release
 
 #############################################################################
 ###   LaTeX Support   #######################################################
@@ -104,3 +104,51 @@ cl-release: cl-tag cl-push
 
 cl-bash:
 	@docker run --entrypoint=bash -it $(D_ORG)/$(D_PROJ_CL):latest
+
+#############################################################################
+###   Polyglot Support   ####################################################
+#############################################################################
+
+D_PROJ_POLYG = maxima-jupyter-polyglot
+D_DIR_POLYG = ./docker/polyglot
+
+polyglot-image:
+	@docker build --build-arg NB_USER=$(USER) \
+	--tag $(D_ORG)/$(D_PROJ_POLYG) $(D_DIR_POLYG)
+	@docker tag $(D_ORG)/$(D_PROJ_POLYG) $(D_ORG)/$(D_PROJ_POLYG):latest
+
+polyglot-tag:
+	@docker tag $(D_ORG)/$(D_PROJ_POLYG) $(D_ORG)/$(D_PROJ_POLYG):$(VERSION)
+
+polyglot-push:
+	@docker push $(D_ORG)/$(D_PROJ_POLYG):latest
+	@docker push $(D_ORG)/$(D_PROJ_POLYG):$(VERSION)
+
+polyglot-release: polyglot-tag polyglot-push
+
+polyglot-bash:
+	@docker run --entrypoint=bash -it $(D_ORG)/$(D_PROJ_POLYG):latest
+
+#############################################################################
+###   Polyglot LaTeXSupport   ###############################################
+#############################################################################
+
+D_PROJ_POLYG_LATEX = maxima-jupyter-polyglot-latex
+D_DIR_POLYG_LATEX = ./docker/polyglot-latex
+
+polyglot-latex-image:
+	@docker build --build-arg NB_USER=$(USER) \
+	--tag $(D_ORG)/$(D_PROJ_POLYG_LATEX) $(D_DIR_POLYG_LATEX)
+	@docker tag $(D_ORG)/$(D_PROJ_POLYG_LATEX) $(D_ORG)/$(D_PROJ_POLYG_LATEX):latest
+
+polyglot-latex-tag:
+	@docker tag $(D_ORG)/$(D_PROJ_POLYG_LATEX) $(D_ORG)/$(D_PROJ_POLYG_LATEX):$(VERSION)
+
+polyglot-latex-push:
+	@docker push $(D_ORG)/$(D_PROJ_POLYG_LATEX):latest
+	@docker push $(D_ORG)/$(D_PROJ_POLYG_LATEX):$(VERSION)
+
+polyglot-latex-release: polyglot-latex-tag polyglot-latex-push
+
+polyglot-latex-bash:
+	@docker run --entrypoint=bash -it $(D_ORG)/$(D_PROJ_POLYG_LATEX):latest

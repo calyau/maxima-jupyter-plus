@@ -1,0 +1,4 @@
+{:deps {clojupyter {:mvn/version "0.2.3"}}
+ :aliases {:depstar
+           {:extra-deps
+            {seancorfield/depstar {:mvn/version "0.3.0"}}}}}
