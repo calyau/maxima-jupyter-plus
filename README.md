@@ -45,8 +45,11 @@ Note that the Docker image for the standard `maxima-jupyter` weighs in at
   * https://github.com/robert-dodier/maxima-jupyter#examples
   * https://github.com/calyau/maxima-tutorial-notebooks
 * Common Lisp
-  * 
-  
+  * https://github.com/fredokun/cl-jupyter/blob/master/about-cl-jupyter.ipynb
+* Clojure
+  * https://github.com/clojupyter/clojupyter/tree/master/examples
+* Go
+  * https://github.com/gopherdata/gophernotes/tree/master/examples
 
 ## Usage
 
